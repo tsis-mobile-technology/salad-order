@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Login Form</title>
+	<link href="css/tui_black.min.css" rel="stylesheet">
+  	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/login.css" rel="stylesheet">
+  	<!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+  	<![endif]-->
+  	<script src="js/jquery-1.11.1.min.js"></script>
+  	<script src="js/tui.min.js"></script>
+  	<script type="text/javascript">
+		
+  		$(document).ready(function(){
+  			getGroupList();
+		});
+		
+		$(document).on('click', '#loginBtn', function () {
+			
+			if ($('#CPCODE').val() == "") {
+		        alert('계열사를 선택해주세요.');
+		        $('#CPCODE').focus();
+		        return false;
+		    }
+			
+			if ($('#ID').val() == "") {
+		        alert('통합그룹웨어 사번을 입력해주세요.');
+		        $('#ID').focus();
+		        return false;
+		    }
+			
+			if ($('#PWD').val() == "") {
+		        alert('비밀번호를 입력해주세요.');
+		        $('#PWD').focus();
+		        return false;
+		    }
+			
+			var obj = new Object();
+			obj.CPCODE = $('#CPCODE').val();
+			obj.ID = $('#ID').val();
+			obj.PWD = $('#PWD').val();
+
+			var json_data = JSON.stringify(obj);
+			//console.log("json_data : " + json_data);
+			
+			
+			var request = $.ajax({
+				url: "/tsisIT/loginOk.do",
+		        type: 'POST',
+		        data: json_data,
+		        dataType: "json",
+		        processData: false,
+		        contentType: false
+			});
+			
+			request.done(function (data)
+			{
+				if (data != null) {
+					var jsonObj = JSON.stringify(data);
+					var jsonData = JSON.parse(jsonObj);
+					
+					//console.log("jsonData >>>>"+jsonData);
+					//console.log("login_result >>>>"+jsonData.RESULT);
+					
+					if(jsonData.RESULT == 'SUCCESS'){
+						console.log("success!!");
+						var msg = jsonData.HEAD + ' ' + jsonData.TEAM + ' ' + jsonData.PART + ' ' + jsonData.NAME + ' ' + jsonData.LEVEL 
+						alert(msg + '님 로그인 성공!!');
+						
+						//로그인 성공 후 페이지 이동 처리 
+						
+					}else{
+						console.log("fail !!");
+						alert(jsonData.RESULT_MSG);
+					}
+		    
+				}
+			});
+		      
+			request.fail(function (jqXHR, textStatus)
+	      	{
+				alert("서버 통신 오류 발생!");
+			});
+			
+			
+			return false;
+		});
+	</script>
+</head>
+<body>
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+          <h1 class="text-center">Login</h1>
+      </div>
+      <div class="modal-body">
+          <form name="form1" class="form col-md-12 center-block">
+            <div class="form-group">
+              <select id="CPCODE" name="CPCODE" class="form-control input-lg"></select>
+            </div>
+            <div class="form-group">
+              <input id="ID" name="ID" type="text" class="form-control input-lg" placeholder="통합그룹웨어 사번">
+            </div>
+            <div class="form-group">
+              <input id="PWD" name="PWD" type="password" class="form-control input-lg" placeholder="비밀번호">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary btn-lg btn-block" id='loginBtn'>로그인</button>
+            </div>
+          </form>
+      </div>
+  </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+function getGroupList(){
+	
+	$.ajax({ 
+		//type:"POST",
+		url: '/tsisIT/getGroupList.do', 
+		dataType: "json", 
+		data :JSON.stringify({
+		}),
+		contentType:"application/json; charset=utf-8", 
+		cache : false, 
+		success : function(resData){
+			var jsonObj = JSON.stringify(resData);
+			var result = JSON.parse(resData.result);
+			var item = result.DATA;
+			
+			var len = item.length;
+			//console.log("len >>" + len);
+			
+			if(len > 0){
+				for (var i = 0; i < item.length; i++)
+				{
+					//console.log("result.DATA >>" + item[i].CPNAME);
+					var option = $("<option value='"+item[i].CPCODE+"'>"+item[i].CPNAME+"</option>");
+	                $('#CPCODE').append(option);
+				}
+			}
+			
+		},
+		error : function(request,status,error){
+			var jsonObj1 = JSON.stringify(request);
+			var jsonData1 = JSON.parse(jsonObj1);
+			
+			alert('시스템 오류 발생 하였습니다. \n'+jsonData1.responseText);
+			
+			/* 
+			console.log("1: "+ JSON.stringify(request));
+			console.log("2: "+ request); 
+			console.log("3: "+ status); 
+			console.log("4: "+ error);
+			*/
+		}
+	});
+}
+</script>
+</body>
+</html>
