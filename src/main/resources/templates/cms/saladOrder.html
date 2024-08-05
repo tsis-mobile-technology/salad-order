@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+	<title>간편식 주문 현황</title>
+    <meta charset="utf-8" content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- bootstrap 3.0.2 -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- font Awesome -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    
+    <!-- datepicker -->
+    <link rel="stylesheet" href="/css/zebra_datepicker_metallic.css">
+    
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/layer.css">
+    <!--[if lt IE 9]>
+        <script src="/js/html5shiv.js"></script>
+        <script src="/js/respond.min.js"></script>
+    <![endif]-->
+    <script src="/js/jquery-1.11.3.min.js"></script>
+	<script src="/js/jquery-ui-1.10.3.min.js"></script>
+	
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/zebra_datepicker.js"></script>
+	<script src="/js/common.js"></script>
+	<script src="/js/paging.js"></script>
+</head>
+<body class="skin-blue">
+	<header class="header">
+		<div th:replace="~{/cms/header}"></div>
+    </header>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+    	<aside class="left-side sidebar-offcanvas">                
+            <div th:replace="~{/cms/gnb_left}"></div>
+            <!-- /.sidebar -->
+        </aside>
+        <aside class="right-side">                
+            <section class="content-header">
+                <h1>
+                    간편식 주문<br>
+                    <small></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">간편식 주문</li>
+                </ol>
+            </section>                
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+</body>
+</html>

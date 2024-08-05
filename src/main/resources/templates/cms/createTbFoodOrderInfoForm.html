@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>간편식 주문 기본 정보</title>
+  <meta charset="utf-8" content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+  <!-- bootstrap 3.0.2 -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- font Awesome -->
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+  <!-- datepicker -->
+  <link rel="stylesheet" href="/css/zebra_datepicker_metallic.css">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/layer.css">
+  <!--[if lt IE 9]>
+      <script src="/js/html5shiv.js"></script>
+      <script src="/js/respond.min.js"></script>
+  <![endif]-->
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src="/js/jquery-ui-1.10.3.min.js"></script>
+
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/zebra_datepicker.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/paging.js"></script>
+</head>
+<body class="skin-blue">
+  <header class="header">
+    <div th:replace="~{/cms/header}"></div>
+  </header>
+  <div class="wrapper row-offcanvas row-offcanvas-left">
+    <aside class="left-side sidebar-offcanvas">                
+      <div th:replace="~{/cms/gnb_left}"></div>
+      <!-- /.sidebar -->
+    </aside>
+    <aside class="right-side">                
+      <section class="content-header">
+        <h1>
+          간편식 주문 기본정보<br>
+          <small></small>
+        </h1>
+        <ol class="breadcrumb">
+          <li class="active">간편식 주문 기본정보 등록</li>
+        </ol>
+      </section>                
+      <!-- Main content -->
+      <form method="post"  id="mainForm" enctype="multipart/form-data">
+        <label for="name">접수날짜</label>
+        <input type="datetime-local" id="receiveDate" name="receiveDate" placeholder="접수날짜을 입력하세요" /><br>
+        <label for="weekMenuImg">주간식단 이미지</label>
+        <input type="button" id="weekMenuImgBtn" value="주간식단 이미지 선택" />
+		<input type="file" id="weekMenuImg" name="weekMenuImg" accept=".png, .jpeg, .jpg, .gif" style="display: none;" /><br>
+        <label for="menuACnt">메뉴A 최대 수량</label>
+        <input type="text" id="menuACnt" name="menuACnt" placeholder="메뉴A 최대 수량을 입력하세요" /><br>
+        <label for="menuBCnt">메뉴B 최대 수량</label>
+        <input type="text" id="menuBCnt" name="menuBCnt" placeholder="메뉴B 최대 수량을 입력하세요" /><br>
+        <label for="createdAt">등록날짜</label>
+        <input type="datetime-local" id="createdAt" name="createdAt" placeholder="등록날짜을 입력하세요" /><br>
+        <label for="updatedAt">수정날짜</label>
+        <input type="datetime-local" id="updatedAt" name="updatedAt" placeholder="수정날짜을 입력하세요" /><br>
+
+        <button type="button" onclick="submitForm()">등록</button>
+      </form>
+    </aside><!-- /.right-side -->
+  </div><!-- ./wrapper -->
+
+  <!-- 스크립트 위치 변경 -->
+  <script>
+    function submitForm() {
+        var formData = new FormData(document.getElementById("mainForm"));
+        $.ajax({
+            url: "/salad/info/new",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert("데이터가 성공적으로 저장되었습니다.");
+            },
+            error: function(error) {
+                alert("데이터 저장 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        // 폼 제출 이벤트 처리
+        $("#mainForm").submit(function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+            $.ajax({
+                url: "/salad/info/new",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    alert("데이터가 성공적으로 저장되었습니다.");
+                },
+                error: function(error) {
+                    alert("데이터 저장 중 오류가 발생했습니다.");
+                }
+            });
+        });
+		// 날짜 선택 버튼 클릭 이벤트 처리
+		$("#receiveDate, #createdAt, #updatedAt").click(function(event) {
+			// 날짜 선택 로직 처리 (필요한 경우)
+			$(this).Zebra_DatePicker('show');
+		});
+
+		// 주간 식단 이미지 선택 버튼 클릭 이벤트 처리
+		$("#weekMenuImgBtn").click(function(event) {
+			$("#weekMenuImg").click();
+		});
+        // 폼 영역 클릭 이벤트 처리
+        $("#mainForm").click(function(event) {
+            event.preventDefault();
+        });
+
+    });
+</script>
+
+</body>
+</html>
