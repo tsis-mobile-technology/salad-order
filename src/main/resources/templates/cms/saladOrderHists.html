@@ -132,8 +132,8 @@
 									<td th:text="${tbFoodOrderHist.orderMenu}"></td>
 									<td th:text="${tbFoodOrderHist.orderCnt}"></td>
 									<td th:text="${tbFoodOrderHist.orderStatus}"></td>
-									<td th:text="${tbFoodOrderHist.createdAt}"></td>
-									<td th:text="${tbFoodOrderHist.updatedAt}"></td>
+									<td th:text="${#temporals.format(tbFoodOrderHist.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td th:text="${#temporals.format(tbFoodOrderHist.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 						   </tbody>
                        </table>

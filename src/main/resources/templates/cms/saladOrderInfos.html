@@ -122,12 +122,12 @@
                            <tbody id="boardList">
 								<tr th:each="tbFoodOrderInfo : ${tbFoodOrderInfos}">
 									<td th:text="${tbFoodOrderInfo.seq}"></td>
-									<td th:text="${tbFoodOrderInfo.receiveDate}"></td>
+									<td th:text="${#temporals.format(tbFoodOrderInfo.receiveDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 									<td th:text="${tbFoodOrderInfo.weekMenuImg}"></td>
 									<td th:text="${tbFoodOrderInfo.menuACnt}"></td>
 									<td th:text="${tbFoodOrderInfo.menuBCnt}"></td>
-									<td th:text="${tbFoodOrderInfo.createdAt}"></td>
-									<td th:text="${tbFoodOrderInfo.updatedAt}"></td>
+									<td th:text="${#temporals.format(tbFoodOrderInfo.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td th:text="${#temporals.format(tbFoodOrderInfo.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
 						   </tbody>
                        </table>
