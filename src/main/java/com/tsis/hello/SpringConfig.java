@@ -1,5 +1,6 @@
 package com.tsis.hello;
 
+import com.tsis.hello.repository.AdminRepository;
 import com.tsis.hello.repository.JdbcMemberRepository;
 import com.tsis.hello.repository.JdbcTemplateMemberRepository;
 import com.tsis.hello.repository.JpaMemberRepository;
@@ -7,6 +8,7 @@ import com.tsis.hello.repository.MemberRepository;
 import com.tsis.hello.repository.MemoryMemberRepository;
 import com.tsis.hello.repository.TbFoodOrderInfoRepository;
 import com.tsis.hello.repository.TbFoodOrderHistRepository;
+import com.tsis.hello.service.AdminService;
 import com.tsis.hello.service.MemberService;
 import com.tsis.hello.service.TbFoodOrderInfoService;
 import com.tsis.hello.service.TbFoodOrderHistService;
@@ -14,6 +16,7 @@ import com.tsis.hello.service.TbFoodOrderHistService;
 import jakarta.persistence.EntityManager;
 
 import com.tsis.hello.aop.TimeTraceAop;
+import com.tsis.hello.domain.Admin;
 import com.tsis.hello.domain.Member;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +37,16 @@ public class SpringConfig {
     private final MemberRepository memberRepository;
     private final TbFoodOrderInfoRepository tbFoodOrderInfoRepository;
     private final TbFoodOrderHistRepository tbFoodOrderHistRepository;
-
+    private final AdminRepository adminRepository;
 
     // @Autowired
 
     @Autowired
-    public SpringConfig(MemberRepository memberRepository, TbFoodOrderInfoRepository tbFoodOrderInfoRepository, TbFoodOrderHistRepository tbFoodOrderHistRepository) {
+    public SpringConfig(MemberRepository memberRepository, TbFoodOrderInfoRepository tbFoodOrderInfoRepository, TbFoodOrderHistRepository tbFoodOrderHistRepository, AdminRepository adminRepository) {
         this.memberRepository = memberRepository;
         this.tbFoodOrderInfoRepository = tbFoodOrderInfoRepository;
         this.tbFoodOrderHistRepository = tbFoodOrderHistRepository;
+        this.adminRepository = adminRepository;
     }
 
     // JPA case
@@ -75,6 +79,12 @@ public class SpringConfig {
     public TbFoodOrderHistService tbFoodOrderHistService() {
         return new TbFoodOrderHistService(tbFoodOrderHistRepository);
     }
+
+    @Bean
+    public AdminService adminService() {
+        return new AdminService(adminRepository);
+    }
+
 
     // @Bean
     // public MemberRepository memberRepository() {

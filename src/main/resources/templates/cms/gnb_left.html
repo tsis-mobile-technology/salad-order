@@ -5,15 +5,14 @@
             <img src="/img/ico_admin.png" class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
-            <p>안녕하세요<br> ${sessionScope.USERNAME} 님</p>
-
-            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            <p>안녕하세요<br><p th:if="${sessionScope != null and sessionScope.USERNAME != null}" th:text="${sessionScope.USERNAME}"></p></p>
+            <a href="/"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
     </div>
     
     <ul class="sidebar-menu">
-        <li class="treeview <c:if test="${navi eq 2 }"> active </c:if>">
-            <a href="#">
+        <li class="treeview <c:if test='${navi eq 2 }'> active </c:if>">
+            <a href="/">
                 <i class="fa fa-envelope-o"></i>
                 <span>간편식 주문 현황</span>
                 <i class="fa fa-angle-down pull-right"></i>

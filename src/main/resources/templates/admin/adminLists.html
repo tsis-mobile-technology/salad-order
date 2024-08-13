@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+	<title>Admin</title>
+    <meta charset="utf-8" content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- bootstrap 3.0.2 -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- font Awesome -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    
+    <!-- datepicker -->
+    <link rel="stylesheet" href="/css/zebra_datepicker_metallic.css">
+    
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/layer.css">
+    <!--[if lt IE 9]>
+        <script src="/js/html5shiv.js"></script>
+        <script src="/js/respond.min.js"></script>
+    <![endif]-->
+    <script src="/js/jquery-1.11.3.min.js"></script>
+	<script src="/js/jquery-ui-1.10.3.min.js"></script>
+	
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/zebra_datepicker.js"></script>
+	<script src="/js/common.js"></script>
+	<script src="/js/paging.js"></script>
+</head>
+<body class="skin-blue">
+	<header class="header">
+		<div th:replace="~{/cms/header}"></div>
+    </header>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+    	<aside class="left-side sidebar-offcanvas">                
+            <div th:replace="~{/cms/gnb_left}"></div>
+            <!-- /.sidebar -->
+        </aside>
+        <aside class="right-side">                
+            <section class="content-header">
+                <h1>
+                    Admin<br>
+                    <small></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">Admin List</li>
+                </ol>
+            </section>                
+            <!-- Main content -->
+            <form method="post"  id="mainForm">
+           	<input type="hidden" name="nowPage" id="nowPage" value="${nowPage }"/>
+           	<input type="hidden" name="thisPage" id="thisPage" value="${nowPage}"/>
+            <section class="content">
+            <div class="search_form">
+				<div class="list_bot">
+					<div class="text-center paging"><p class="txt_count text-orange" style="margin-right:5px;"><b>총 건수 : <span id='totalCount'></span>건&nbsp;</b></p></div>
+					<br>
+					<div class="table-responsive mart10">
+                       <table class="table tbl_list tbl_fixed">
+                       	<colgroup>
+							<col style="width:50px;">
+							<col style="width:100px;">
+							<col style="width:200px;">
+							<col style="width:100px;">
+                           </colgroup>
+                           <thead>
+                               <tr>
+                                   <th scope="col">순번</th>
+                                   <th scope="col">계정</th>
+                                   <th scope="col">패스워드</th>
+                                   <th scope="col">이름</th>
+                               </tr>
+                           </thead>
+                           <!-- ************* 1번영역 ***************** -->
+                           <tbody id="boardList">
+								<tr th:each="adminList : ${adminLists}">
+									<td th:text="${adminList.userId}"></td>
+									<td th:text="${adminList.userPwd}"></td>
+									<td th:text="${adminList.userName}"></td>
+								</tr>
+						   </tbody>
+                       </table>
+                   </div><!-- /.table-responsive -->
+                   <div class="row">
+					<div class="col-xs-6"></div>
+                          <div class="col-xs-6 text-right">
+                              <div class="form-inline">
+                                <a href="#" class="btn btn-sm  btn-success" id="btnAdminNew"><i class="fa fa-file-create-o"></i>Admin 계정 등록</a>
+                              	<a href="#" class="btn btn-sm  btn-success" id="btnExcel"><i class="fa fa-file-excel-o"></i> XLS 다운로드</a>
+                              </div>
+                          </div>
+					</div>
+                   <br>
+                   <div id="paging" class="text-center paging"></div>
+			</div>	
+			</section><!-- /.content -->
+	        </form>
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+</body>
+<script type="text/javascript">
+ 	$("#btnAdminNew").on("click", function(){
+        // replace /admin/new
+        window.location.href="/admin/new";
+    });
+    $(document).ready(function(){
+    	var nowPage = $("#nowPage").val();
+    	var thisPage = $("#thisPage").val();
+    	var totalCount = $("#totalCount").val();
+    	var page = new Paging(nowPage, thisPage, totalCount);
+    	page.init();
+    	
+    	$("#paging").html(page.getHtml());
+    	
+    	$("#paging").on("click", "a", function(){
+    		var page = $(this).attr("data-page");
+    		$("#nowPage").val(page);
+    		$("#mainForm").submit();
+    	});
+    });
+    $("#btnExcel").on("click",function(){
+    	
+    	$("#mainForm").attr({"action":"saladOrderListExcel.do"}).submit(); // you need after modify 24.7.26 
+    });
+    
+    function addComma(value){
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return value; 
+    }
+ </script>
+</html>
