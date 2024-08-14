@@ -46,8 +46,8 @@ public class AdminService {
     /**
      * Admin 정보 조회
      */
-    public Optional<Admin> findOne(Long adminId) {
-        return adminRepository.findById(adminId);
+    public Optional<Admin> findOne(Long id) {
+        return adminRepository.findById(id);
     }
     
 }
