@@ -93,11 +93,55 @@ public class TbFoodOrderController {
     }
     
     @GetMapping("/salad/orderHists")
-    public String listHist(Model model) {
+    public String listHist(Model model, TbFoodOrderHistForm form) {
         List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderInfos();
         model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
+        model.addAttribute("totalCount", tbFoodOrderHists.size());
+        //tbFoodOrderHists 리스트에서 orderStatus가 'R' 인것들에 대한 orderCnt 합을 구해 sumCount에 등록
+        int sumCount = 0;
+        int cancelCount = 0;
+        for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
+            if (tbFoodOrderHist.getOrderStatus() == 'R') {
+                sumCount += tbFoodOrderHist.getOrderCnt();
+            }
+            else if (tbFoodOrderHist.getOrderStatus() == 'C') {
+                cancelCount += tbFoodOrderHist.getOrderCnt();
+            }
+        }
+        model.addAttribute("sumCount", sumCount);
+        model.addAttribute("cancelCount", cancelCount);
+        model.addAttribute("searchType", form.getSearch_type());
+        model.addAttribute("searchValue", form.getSearch_value());
+        model.addAttribute("date_start", form.getDate_start());
+        model.addAttribute("date_end", form.getDate_end());
+
         return "/cms/saladOrderHists";
     }
     
+    @PostMapping("/salad/orderHists")
+    public String listSearchHist(Model model, TbFoodOrderHistForm form) {
+        List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderInfos();
+        model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
+        model.addAttribute("totalCount", tbFoodOrderHists.size());
+        //tbFoodOrderHists 리스트에서 orderStatus가 'R' 인것들에 대한 orderCnt 합을 구해 sumCount에 등록
+        int sumCount = 0;
+        int cancelCount = 0;
+        for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
+            if (tbFoodOrderHist.getOrderStatus() == 'R') {
+                sumCount += tbFoodOrderHist.getOrderCnt();
+            }
+            else if (tbFoodOrderHist.getOrderStatus() == 'C') {
+                cancelCount += tbFoodOrderHist.getOrderCnt();
+            }
+        }
+        model.addAttribute("sumCount", sumCount);
+        model.addAttribute("cancelCount", cancelCount);
+        model.addAttribute("searchType", form.getSearch_type());
+        model.addAttribute("searchValue", form.getSearch_value());
+        model.addAttribute("date_start", form.getDate_start());
+        model.addAttribute("date_end", form.getDate_end());
+
+        return "/cms/saladOrderHists";
+    }
     
 }

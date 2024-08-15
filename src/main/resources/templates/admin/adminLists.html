@@ -59,7 +59,7 @@
             <section class="content">
             <div class="search_form">
 				<div class="list_bot">
-					<div class="text-center paging"><p class="txt_count text-orange" style="margin-right:5px;"><b>총 건수 : <span id='totalCount'></span>건&nbsp;</b></p></div>
+					<div class="text-center paging"><p class="txt_count text-orange" style="margin-right:5px;"><b>총 건수 : <span id='totalCount' th:text="${totalCount}"></span>건&nbsp;</b></p></div>
 					<br>
 					<div class="table-responsive mart10">
                        <table class="table tbl_list tbl_fixed">
@@ -80,13 +80,16 @@
                            <!-- ************* 1번영역 ***************** -->
                            <tbody id="boardList">
 								<tr th:each="admin : ${admins}">
-                                    <td th:text="${admin.id}"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-secondary" th:data-admin-id="${admin.id}" onclick="deletePassword(this.dataset.adminId)"><span th:text="${admin.id}"></span>번 삭제하기</button>
+                                    </td>
 									<td th:text="${admin.userId}"></td>
 									<!-- <td th:text="${admin.userPwd}"></td> -->
                                     <td>
-                                        <span id="password-${admin.id}">******</span> 
+                                        <span th:id="'password-' + ${admin.id}">******</span>
                                         <!-- <button type="button" class="btn btn-sm btn-secondary" onclick="showPassword('${admin.id}')">표시하기</button> -->
-                                        <a th:href="@{/admin/password/{adminId}(adminId=${admin.id})}">View Password</a>
+                                        <button type="button" class="btn btn-sm btn-secondary" th:data-admin-id="${admin.id}" onclick="showPassword(this.dataset.adminId)">표시하기</button>
+                                        <!-- <a th:href="@{/admin/password/{adminId}(adminId=${admin.id})}">View Password</a> -->
                                     </td>
 									<td th:text="${admin.userName}"></td>
 								</tr>
@@ -120,6 +123,9 @@
     	var thisPage = $("#thisPage").val();
     	var totalCount = $("#totalCount").val();
         let container = $('#page');
+
+        sessionCheck();
+
         container.pagination({
             dataSource: totalCount,
             pageSize : 8, // 한 페이지에 나타낼 데이터 수
@@ -132,7 +138,7 @@
     	
     	$("#mainForm").attr({"action":"saladOrderListExcel.do"}).submit(); // you need after modify 24.7.26 
     });
-    
+
     function addComma(value){
         value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return value; 
@@ -164,10 +170,33 @@
                 // 서버에서 받은 데이터를 화면에 표시합니다.
                 // 여기서는 간단히 alert으로 표시하지만, 
                 // 실제로는 해당 행의 <span> 태그 내용을 변경하는 것이 좋습니다.
-                alert("비밀번호 (암호화된 상태): " + data); 
+                // alert("비밀번호 (암호화된 상태): " + data); 
+                // 서버에서 받은 데이터로 <span> 태그 내용을 변경합니다.
+                $('#password-' + id).text(data);
             },
             error: function(error) {
                 alert("비밀번호를 불러오는 데 실패했습니다.");
+            }
+        });
+    }
+
+    function deletePassword(id) {
+        // AJAX 요청을 통해 서버에서 비밀번호를 가져옵니다.
+        rtnCode = alert("정말 삭제할까요?");
+        if(rtnCode == false) return;
+        $.ajax({
+            url: '/admin/password/' + id,
+            type: 'DELETE',
+            success: function(data) {
+                // 서버에서 받은 데이터를 화면에 표시합니다.
+                // 여기서는 간단히 alert으로 표시하지만, 
+                // 실제로는 해당 행의 <span> 태그 내용을 변경하는 것이 좋습니다.
+                // alert("비밀번호 (암호화된 상태): " + data); 
+                // 서버에서 받은 데이터로 <span> 태그 내용을 변경합니다.
+                window.location.reload();
+            },
+            error: function(error) {
+                alert("계정을 삭제하는데 실패했습니다.");
             }
         });
     }

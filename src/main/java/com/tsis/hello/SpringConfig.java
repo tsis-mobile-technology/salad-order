@@ -82,9 +82,8 @@ public class SpringConfig {
 
     @Bean
     public AdminService adminService() {
-        return new AdminService(adminRepository);
+        return new AdminService(adminRepository); 
     }
-
 
     // @Bean
     // public MemberRepository memberRepository() {

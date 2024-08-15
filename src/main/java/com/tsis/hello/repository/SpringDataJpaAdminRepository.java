@@ -11,4 +11,5 @@ public interface SpringDataJpaAdminRepository extends JpaRepository<Admin, Long>
     Optional<Admin> findByUserId(String userId);
     Optional<Admin> findByUserPwd(String userPwd);
     Optional<Admin> findByUserName(String userName);
+    Optional<Admin> findByUserIdAndUserPwd(String userId, String userPwd);
 }

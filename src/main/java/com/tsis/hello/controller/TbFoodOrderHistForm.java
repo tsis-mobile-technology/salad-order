@@ -2,6 +2,7 @@ package com.tsis.hello.controller;
 
 import java.time.LocalDateTime;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 public class TbFoodOrderHistForm {
@@ -16,6 +17,10 @@ public class TbFoodOrderHistForm {
     private LocalDateTime createdAt; // created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '예약일시'
     private char orderStatus; // order_status char(1) NOT NULL COMMENT '주문상태 예약:R, 수령:Y, 미수령:N'
     private LocalDateTime updatedAt; // updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수령일시'
+    private String search_type;
+    private String search_value;
+    private String date_start;
+    private String date_end;
 
     public Long getSeq() {
         return seq;
@@ -95,6 +100,38 @@ public class TbFoodOrderHistForm {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getSearch_type() {
+        return search_type;
+    }
+
+    public void setSearch_type(String search_type) {
+        this.search_type = search_type;
+    }
+
+    public String getSearch_value() {
+        return search_value;
+    }
+
+    public void setSearch_value(String search_value) {
+        this.search_value = search_value;
+    }
+
+    public String getDate_start() {
+        return date_start;
+    }
+
+    public void setDate_start(String date_start) {
+        this.date_start = date_start;
+    }
+
+    public String getDate_end() {
+        return date_end;
+    }
+
+    public void setDate_end(String date_end) {
+        this.date_end = date_end;
     }
 
     @Override
