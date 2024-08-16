@@ -4,29 +4,33 @@
 <meta charset="utf-8">
 	<title>간편식 주문 기본 정보</title>
     <meta charset="utf-8" content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-    <!-- bootstrap 3.0.2 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!-- font Awesome -->
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    
-    <!-- datepicker -->
-    <link rel="stylesheet" href="/css/zebra_datepicker_metallic.css">
-    
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/layer.css">
-    <!--[if lt IE 9]>
-        <script src="/js/html5shiv.js"></script>
-        <script src="/js/respond.min.js"></script>
-    <![endif]-->
-    <script src="/js/jquery-1.11.3.min.js"></script>
-	<script src="/js/jquery-ui-1.10.3.min.js"></script>
+	<meta charset="utf-8" content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+	<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+	<!-- bootstrap 3.0.2 -->
+	<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<!-- font Awesome -->
+	<!-- <link rel="stylesheet" href="/css/font-awesome.min.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/fontawesome.min.css" integrity="sha512-B46MVOJpI6RBsdcU307elYeStF2JKT87SsHZfRSkjVi4/iZ3912zXi45X5/CBr/GbCyLx6M1GQtTKYRd52Jxgw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- datepicker -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/zebra_datepicker.js"></script>
+	<!-- Theme style -->
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/layer.css">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.3/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/paginationjs@2.6.0/dist/pagination.min.css">
+	<!-- <script src="/js/jquery-3.5.1.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- <script src="/js/jquery-ui-1.10.3.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.3/jquery-ui.min.js"></script>
+  
+	<!-- <script src="/js/bootstrap.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="/js/common.js"></script>
-	<script src="/js/paging.js"></script>
+	<!-- <script src="/js/paging.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/paginationjs@2.6.0/dist/pagination.min.js"></script>
 </head>
 <body class="skin-blue">
 	<header class="header">
@@ -49,52 +53,31 @@
             </section>                
             <!-- Main content -->
             <form method="post"  id="mainForm">
-           	<input type="hidden" name="nowPage" id="nowPage" value="${nowPage }"/>
-           	<input type="hidden" name="thisPage" id="thisPage" value="${nowPage}"/>
+           	<input type="hidden" name="nowPage" th:id="nowPage" th:value="${nowPage}"/>
+           	<input type="hidden" name="thisPage" th:id="thisPage" th:value="${nowPage}"/>
             <section class="content">
             <div class="search_form">
-				<div class="dis_table">
-					<dl class="dis_ftr">
-						<dt>검색 조건</dt>
-                   		<dd>	
-                       		<div class="form-inline">
-								<select class="form-control" id="search_type" name="search_type">
-									<option value="id" <c:if test="${search.search_type  eq 'id' }">selected="selected"</c:if>>사번</option>
-									<option value="orderNo" <c:if test="${search.search_type  eq 'orderNo' }">selected="selected"</c:if>>주문번호</option>
-								</select>
-						
-                        	   	<div class="form-group">
-									<input type="text" class="form-control" id="search_value" placeholder="검색어 입력" name="search_value" value="${search.search_value }">
-								</div>
-								<span class="txt_help"></span>
-								<button type="button" class="btn btn-sm  btn-primary" id="btnSearch">검색</button>
-							</div>
-						</dd>
-					</dl>
-				</div> 
 				<div class="dis_table">
 					<dl class="dis_ftr">
 						<dt>주문기간</dt>
 						<dd>
 							<div class="form-inline">
 								<div class="form-group">
-                               		<input type="text" class="form-control input_datebox" id="date_start" name="date_start" value="">
+                               		<input type="text" class="form-control input_datebox" th:id="date_start" name="date_start" th:value="${date_start}">
                            		</div>
                            		~
                            		<div class="form-group">
-                               		<input type="text" class="form-control input_datebox" id="date_end" name="date_end" value="">
+                               		<input type="text" class="form-control input_datebox" th:id="date_end" name="date_end" th:value="${date_end}">
                            		</div>
-                           		<%-- <input type="hidden"  id="date_start" name="start_date" value="${search.start_date }">
-                           		<input type="hidden"  id="date_end" name="last_date" value="${search.last_date }"> --%>
-                           		<%-- <input type="hidden" class="form-control" id="phone_num" placeholder="검색어 입력" name="search_num" value="${search.search_num }"> --%>
+								<span class="txt_help"></span>
+								<button type="button" class="btn btn-sm  btn-primary" id="btnSearch">검색</button>
                        		</div>
                    		</dd>
                		</dl>
 				</div>
-                   
 				</div>
 				<div class="list_bot">
-					<div class="text-center paging"><p class="txt_count text-orange" style="margin-right:5px;"><b>총 접수건수 : <span id='totalCount'></span>건&nbsp; / 총 주문건수 : <span id='sumCount'></span>건&nbsp; / 총 취소건수 : <span id='cancelCount'></span>건</b></p></div>
+					<div class="text-center paging"><p class="txt_count text-orange" style="margin-right:5px;"><b>총 건수 : <span th:id='totalCount'></span>건&nbsp;</b></p></div>
 					<br>
 					<div class="table-responsive mart10">
                        <table class="table tbl_list tbl_fixed">
@@ -164,18 +147,15 @@
 	    $("#date_start").val(dateFormat(first_day));
 	    $("#date_end").val(dateFormat(last_day));
 	    
+		sessionCheck();
 	    // boardMain.init();
 	    
 		//DatePicker
-	    $("#date_start").Zebra_DatePicker({
-	        first_day_of_week: 0,
-	        direction: false,
-	        pair: $("#date_end")
-	    });
-	    $("#date_end").Zebra_DatePicker({
-	        first_day_of_week: 0,
-	        direction: true
-	    });
+		flatpickr("#date_end, #date_start", {
+			enableTime: false,
+			dateFormat: "Y-m-d",
+			// 다른 옵션 및 테마 설정
+		});
 	    
 	    $("input").keydown(function(key) {
         	if (key.keyCode == 13) {

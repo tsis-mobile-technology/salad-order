@@ -17,3 +17,29 @@ create table TB_ADMIN
     user_name varchar(255),
     primary key(id)
 );
+
+-- 메뉴정보 테이블 
+CREATE TABLE IF NOT EXISTS TB_FOOD_ORDER_INFO (
+    seq BIGINT AUTO_INCREMENT PRIMARY KEY, 
+    receive_date TIMESTAMP NOT NULL COMMENT '수령일', 
+    week_menu_img VARCHAR(1024) NOT NULL COMMENT '주간메뉴이미지',
+    menu_a_cnt INT NOT NULL COMMENT '샐러드 남은수량',
+    menu_b_cnt INT NOT NULL COMMENT '하프 남은수량',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일시', 
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일시' 
+);
+
+-- 메뉴주문이력 테이블 
+CREATE TABLE IF NOT EXISTS TB_FOOD_ORDER_HIST (
+    seq BIGINT AUTO_INCREMENT, 
+    order_no VARCHAR(100) NOT NULL COMMENT '주문번호',
+    name VARCHAR(100) NOT NULL COMMENT '성명',
+    id VARCHAR(30) NOT NULL COMMENT '사번',
+    dept VARCHAR(100) NOT NULL COMMENT '부서',
+    order_menu CHAR(1) NOT NULL COMMENT '샐러드:A, 하프:B',
+    order_cnt INT NOT NULL COMMENT '주문수량',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '예약일시', 
+    order_status CHAR(1) NOT NULL COMMENT '주문상태 예약:R, 수령:Y, 미수령:N',
+    updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수령일시', 
+    PRIMARY KEY (seq, order_no) 
+);

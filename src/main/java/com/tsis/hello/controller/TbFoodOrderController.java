@@ -5,9 +5,14 @@ import com.tsis.hello.domain.TbFoodOrderInfo;
 import com.tsis.hello.service.TbFoodOrderInfoService;
 import com.tsis.hello.service.TbFoodOrderHistService;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +27,10 @@ public class TbFoodOrderController {
     @SuppressWarnings("unused")
     private final TbFoodOrderInfoService tbFoodOrderInfoService;
     private final TbFoodOrderHistService tbFoodOrderHistService;
+
+    private static final String UPLOAD_DIR = "/Users/gotaejong/ExternHard/97_Workspace/tsis/upload/"; // 파일 저장 경로
+    @Value("${upload.dir}")
+    private String uploadDir;
 
     @Autowired
     public TbFoodOrderController(TbFoodOrderInfoService tbFoodOrderInfoService, TbFoodOrderHistService tbFoodOrderHistService) {
@@ -58,7 +67,7 @@ public class TbFoodOrderController {
     
 
     @PostMapping("/salad/info/new")
-    public String create(TbFoodOrderInfoForm form) {
+    public String create(TbFoodOrderInfoForm form) throws IOException {
         TbFoodOrderInfo tbFoodOrderInfo = new TbFoodOrderInfo();
         tbFoodOrderInfo.setReceiveDate(form.getReceiveDate());
         // tbFoodOrderInfo.setWeekMenuImg(form.getWeekMenuImg());
@@ -66,7 +75,11 @@ public class TbFoodOrderController {
         MultipartFile file = form.getWeekMenuImg();
         if (!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
-            // ... logic to save the file (e.g., to a specific directory) ...
+                        // 파일 저장
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(uploadDir + fileName);
+            Files.write(path, bytes);
+
             tbFoodOrderInfo.setWeekMenuImg(fileName); // Store the filename in the database
         }
         tbFoodOrderInfo.setMenuACnt(form.getMenuACnt());
@@ -75,7 +88,7 @@ public class TbFoodOrderController {
         tbFoodOrderInfo.setUpdatedAt(form.getUpdatedAt());
 
         tbFoodOrderInfoService.join(tbFoodOrderInfo);
-        return "redirect:/salad";
+        return "redirect:/salad"; // Now this will redirect correctly
     }
 
     // @GetMapping("/salad/infoLists")
@@ -86,9 +99,31 @@ public class TbFoodOrderController {
     // }
 
     @GetMapping("/salad/orderInfos")
-    public String list(Model model) {
+    public String listInfo(Model model, TbFoodOrderInfoForm form) {
         List<TbFoodOrderInfo> tbFoodOrderInfos = tbFoodOrderInfoService.findTbFoodOrderInfos();
         model.addAttribute("tbFoodOrderInfos", tbFoodOrderInfos);
+        model.addAttribute("totalCount", tbFoodOrderInfos.size());
+        model.addAttribute("searchType", form.getSearch_type());
+        model.addAttribute("searchValue", form.getSearch_value());
+        model.addAttribute("date_start", form.getDate_start());
+        model.addAttribute("date_end", form.getDate_end());
+
+        return "/cms/saladOrderInfos";
+    }
+
+    @PostMapping("/salad/orderInfos")
+    public String listSearchInfo(Model model, TbFoodOrderInfoForm form) {
+        /**
+         * form.getSearch_type(), form.getSearch_value()를 가져와서 데이터 검색 처리 필요
+         */
+        List<TbFoodOrderInfo> tbFoodOrderInfos = tbFoodOrderInfoService.findTbFoodOrderInfos();
+        model.addAttribute("tbFoodOrderInfos", tbFoodOrderInfos);
+        model.addAttribute("totalCount", tbFoodOrderInfos.size());
+        model.addAttribute("searchType", form.getSearch_type());
+        model.addAttribute("searchValue", form.getSearch_value());
+        model.addAttribute("date_start", form.getDate_start());
+        model.addAttribute("date_end", form.getDate_end());
+        
         return "/cms/saladOrderInfos";
     }
     
@@ -120,6 +155,9 @@ public class TbFoodOrderController {
     
     @PostMapping("/salad/orderHists")
     public String listSearchHist(Model model, TbFoodOrderHistForm form) {
+        /**
+         * form.getSearch_type(), form.getSearch_value()를 가져와서 데이터 검색 처리 필요
+         */
         List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderInfos();
         model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
         model.addAttribute("totalCount", tbFoodOrderHists.size());

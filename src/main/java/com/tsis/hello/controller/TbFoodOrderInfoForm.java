@@ -15,6 +15,10 @@ public class TbFoodOrderInfoForm {
     private int menuBCnt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String search_type;
+    private String search_value;
+    private String date_start;
+    private String date_end;
 
     public String getName() {
         return name;
@@ -81,7 +85,38 @@ public class TbFoodOrderInfoForm {
         this.updatedAt = updatedAt;
     }
 
+    public String getSearch_type() {
+        return search_type;
+    }
 
+    public void setSearch_type(String search_type) {
+        this.search_type = search_type;
+    }
+
+    public String getSearch_value() {
+        return search_value;
+    }
+
+    public void setSearch_value(String search_value) {
+        this.search_value = search_value;
+    }
+
+    public String getDate_start() {
+        return date_start;
+    }
+
+    public void setDate_start(String date_start) {
+        this.date_start = date_start;
+    }
+
+    public String getDate_end() {
+        return date_end;
+    }
+
+    public void setDate_end(String date_end) {
+        this.date_end = date_end;
+    }
+    
     @Override
     public String toString() {
         return "MemberForm{" +
