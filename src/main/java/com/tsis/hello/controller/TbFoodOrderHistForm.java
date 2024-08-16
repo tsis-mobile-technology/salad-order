@@ -19,8 +19,8 @@ public class TbFoodOrderHistForm {
     private LocalDateTime updatedAt; // updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수령일시'
     private String search_type;
     private String search_value;
-    private String date_start;
-    private String date_end;
+    private LocalDateTime date_start;
+    private LocalDateTime date_end;
 
     public Long getSeq() {
         return seq;
@@ -118,19 +118,19 @@ public class TbFoodOrderHistForm {
         this.search_value = search_value;
     }
 
-    public String getDate_start() {
+    public LocalDateTime getDate_start() {
         return date_start;
     }
 
-    public void setDate_start(String date_start) {
+    public void setDate_start(LocalDateTime date_start) {
         this.date_start = date_start;
     }
 
-    public String getDate_end() {
+    public LocalDateTime getDate_end() {
         return date_end;
     }
 
-    public void setDate_end(String date_end) {
+    public void setDate_end(LocalDateTime date_end) {
         this.date_end = date_end;
     }
 

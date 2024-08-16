@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.tsis.hello.domain.TbFoodOrderHist;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface SpringDataJpaTbFoodOrderHistRepository extends JpaRepository<TbFoodOrderHist, Long>, TbFoodOrderHistRepository{
@@ -15,7 +16,7 @@ public interface SpringDataJpaTbFoodOrderHistRepository extends JpaRepository<Tb
     Optional<TbFoodOrderHist> findByDept(String dept);
     Optional<TbFoodOrderHist> findByOrderMenu(String orderMenu);
     Optional<TbFoodOrderHist> findByOrderCnt(int orderCnt);
-    Optional<TbFoodOrderHist> findByCreatedAt(LocalDateTime createdAt);
+    List<TbFoodOrderHist> findByCreatedAt(LocalDateTime createdAt);
     Optional<TbFoodOrderHist> findByOrderStatus(String orderStatus);
     Optional<TbFoodOrderHist> findByUpdatedAt(LocalDateTime updatedAt);
 }

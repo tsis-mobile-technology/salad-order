@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,7 +130,7 @@ public class TbFoodOrderController {
     
     @GetMapping("/salad/orderHists")
     public String listHist(Model model, TbFoodOrderHistForm form) {
-        List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderInfos();
+        List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderHists();
         model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
         model.addAttribute("totalCount", tbFoodOrderHists.size());
         //tbFoodOrderHists 리스트에서 orderStatus가 'R' 인것들에 대한 orderCnt 합을 구해 sumCount에 등록
@@ -158,7 +159,7 @@ public class TbFoodOrderController {
         /**
          * form.getSearch_type(), form.getSearch_value()를 가져와서 데이터 검색 처리 필요
          */
-        List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderInfos();
+        List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderHists();
         model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
         model.addAttribute("totalCount", tbFoodOrderHists.size());
         //tbFoodOrderHists 리스트에서 orderStatus가 'R' 인것들에 대한 orderCnt 합을 구해 sumCount에 등록
@@ -182,4 +183,64 @@ public class TbFoodOrderController {
         return "/cms/saladOrderHists";
     }
     
+    @GetMapping("/salad/orderDailyHists")
+    public String listDailyHist(Model model, TbFoodOrderHistForm form) {
+        // 오늘 날짜를 가져와 form.date_start에 설정
+        // 날짜 포맷은 yyyy-mm-dd로 설정
+        LocalDate today = LocalDate.now();
+        form.setDate_start(today);
+        form.setDate_end(today);
+        
+        List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderHists(form.getDate_start());
+        model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
+        model.addAttribute("totalCount", tbFoodOrderHists.size());
+        //tbFoodOrderHists 리스트에서 orderStatus가 'R' 인것들에 대한 orderCnt 합을 구해 sumCount에 등록
+        int sumCount = 0;
+        int cancelCount = 0;
+        for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
+            if (tbFoodOrderHist.getOrderStatus() == 'R') {
+                sumCount += tbFoodOrderHist.getOrderCnt();
+            }
+            else if (tbFoodOrderHist.getOrderStatus() == 'C') {
+                cancelCount += tbFoodOrderHist.getOrderCnt();
+            }
+        }
+        model.addAttribute("sumCount", sumCount);
+        model.addAttribute("cancelCount", cancelCount);
+        model.addAttribute("searchType", form.getSearch_type());
+        model.addAttribute("searchValue", form.getSearch_value());
+        model.addAttribute("date_start", form.getDate_start());
+        model.addAttribute("date_end", form.getDate_end());
+
+        return "/cms/saladOrderHists";
+    }
+    
+    @PostMapping("/salad/orderDailyHists")
+    public String listSearchDailyHist(Model model, TbFoodOrderHistForm form) {
+        /**
+         * form.getSearch_type(), form.getSearch_value()를 가져와서 데이터 검색 처리 필요
+         */
+        List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderHists(form.getDate_start());
+        model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
+        model.addAttribute("totalCount", tbFoodOrderHists.size());
+        //tbFoodOrderHists 리스트에서 orderStatus가 'R' 인것들에 대한 orderCnt 합을 구해 sumCount에 등록
+        int sumCount = 0;
+        int cancelCount = 0;
+        for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
+            if (tbFoodOrderHist.getOrderStatus() == 'R') {
+                sumCount += tbFoodOrderHist.getOrderCnt();
+            }
+            else if (tbFoodOrderHist.getOrderStatus() == 'C') {
+                cancelCount += tbFoodOrderHist.getOrderCnt();
+            }
+        }
+        model.addAttribute("sumCount", sumCount);
+        model.addAttribute("cancelCount", cancelCount);
+        model.addAttribute("searchType", form.getSearch_type());
+        model.addAttribute("searchValue", form.getSearch_value());
+        model.addAttribute("date_start", form.getDate_start());
+        model.addAttribute("date_end", form.getDate_end());
+
+        return "/cms/saladOrderHists";
+    }
 }

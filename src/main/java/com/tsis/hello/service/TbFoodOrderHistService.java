@@ -3,6 +3,7 @@ package com.tsis.hello.service;
 import com.tsis.hello.domain.TbFoodOrderHist;
 import com.tsis.hello.repository.TbFoodOrderHistRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +42,13 @@ public class TbFoodOrderHistService {
     /**
      * 전체 회원 조회
      */
-    public List<TbFoodOrderHist> findTbFoodOrderInfos() {
+    public List<TbFoodOrderHist> findTbFoodOrderHists() {
         return tbFoodOrderHistRepository.findAll();
+    }
+
+    /** 예약일자(등록일자) 기준으로 전체 조회 */
+    public List<TbFoodOrderHist> findTbFoodOrderHists(LocalDateTime createdAt) {
+        return tbFoodOrderHistRepository.findByCreatedAt(createdAt);
     }
 
     public Optional<TbFoodOrderHist> findOne(Long seq) {
