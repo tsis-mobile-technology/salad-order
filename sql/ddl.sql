@@ -36,10 +36,31 @@ CREATE TABLE IF NOT EXISTS TB_FOOD_ORDER_HIST (
     name VARCHAR(100) NOT NULL COMMENT '성명',
     id VARCHAR(30) NOT NULL COMMENT '사번',
     dept VARCHAR(100) NOT NULL COMMENT '부서',
-    order_menu CHAR(1) NOT NULL COMMENT '샐러드:A, 하프:B',
-    order_cnt INT NOT NULL COMMENT '주문수량',
+    -- order_menu CHAR(1) NOT NULL COMMENT '샐러드:A, 하프:B',
+    -- order_cnt INT NOT NULL COMMENT '주문수량',
+    order_a_cnt INT NOT NULL COMMENT 'A주문수량',
+    order_b_cnt INT NOT NULL COMMENT 'B주문수량',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '예약일시', 
     order_status CHAR(1) NOT NULL COMMENT '주문상태 예약:R, 수령:Y, 미수령:N',
     updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수령일시', 
     PRIMARY KEY (seq, order_no) 
 );
+
+// MySQL Database
+DROP TABLE IF EXISTS `member`;
+
+CREATE TABLE `member` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `TB_ADMIN`;
+
+CREATE TABLE `TB_ADMIN` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `user_id` VARCHAR(255) DEFAULT NULL,
+    `user_pwd` VARCHAR(255) DEFAULT NULL,
+    `user_name` VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -20,10 +20,14 @@ public class TbFoodOrderHist {
     private String name; // name varchar(100) NOT NULL COMMENT '성명'
     private String id; // id varchar(30) NOT NULL COMMENT '사번'
     private String dept; // dept varchar(100) NOT NULL COMMENT '부서'
-    @Column(name = "order_menu")
-    private char orderMenu; // order_menu char(1) NOT NULL COMMENT '샐러드:A, 하프:B'
-    @Column(name = "order_cnt")
-    private int orderCnt; // order_cnt int NOT NULL COMMENT '주문수량'
+    // @Column(name = "order_menu")
+    // private char orderMenu; // order_menu char(1) NOT NULL COMMENT '샐러드:A, 하프:B'
+    // @Column(name = "order_cnt")
+    // private int orderCnt; // order_cnt int NOT NULL COMMENT '주문수량'
+    @Column(name = "order_a_cnt")
+    private int orderACnt; // order_a_cnt int NOT NULL COMMENT '샐러드 A 주문 수량
+    @Column(name = "order_b_cnt")
+    private int orderBCnt; // order_b_cnt int NOT NULL COMMENT '샐러드 B 주문 수량
     @Column(name = "created_at")
     private LocalDateTime createdAt; // created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '예약일시'
     @Column(name = "order_status")
@@ -78,23 +82,39 @@ public class TbFoodOrderHist {
         this.dept = dept;
     }
 
-    // orderMenu에 대한 getter 및 setter
-    public char getOrderMenu() {
-        return orderMenu;
+    public int getOrderACnt() {
+        return orderACnt;
     }
 
-    public void setOrderMenu(char orderMenu) {
-        this.orderMenu = orderMenu;
+    public void setOrderACnt(int orderACnt) {
+        this.orderACnt = orderACnt;
     }
 
-    // orderCnt에 대한 getter 및 setter
-    public int getOrderCnt() {
-        return orderCnt;
+    public int getOrderBCnt() {
+        return orderBCnt;
     }
 
-    public void setOrderCnt(int orderCnt) {
-        this.orderCnt = orderCnt;
+    public void setOrderBCnt(int orderBCnt) {
+        this.orderBCnt = orderBCnt;
     }
+
+    // // orderMenu에 대한 getter 및 setter
+    // public char getOrderMenu() {
+    //     return orderMenu;
+    // }
+
+    // public void setOrderMenu(char orderMenu) {
+    //     this.orderMenu = orderMenu;
+    // }
+
+    // // orderCnt에 대한 getter 및 setter
+    // public int getOrderCnt() {
+    //     return orderCnt;
+    // }
+
+    // public void setOrderCnt(int orderCnt) {
+    //     this.orderCnt = orderCnt;
+    // }
 
     // createdAt에 대한 getter
     public LocalDateTime getCreatedAt() {

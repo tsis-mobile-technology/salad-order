@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +58,10 @@ public class TbFoodOrderController {
         tbFoodOrderHist.setName(form.getName());
         tbFoodOrderHist.setId(form.getId());
         tbFoodOrderHist.setDept(form.getDept());
-        tbFoodOrderHist.setOrderMenu(form.getOrderMenu());
-        tbFoodOrderHist.setOrderCnt(form.getOrderCnt());
+        // tbFoodOrderHist.setOrderMenu(form.getOrderMenu());
+        // tbFoodOrderHist.setOrderCnt(form.getOrderCnt());
+        tbFoodOrderHist.setOrderACnt(form.getOrderACnt());
+        tbFoodOrderHist.setOrderBCnt(form.getOrderBCnt());
         tbFoodOrderHist.setCreatedAt(form.getCreatedAt());
         tbFoodOrderHist.setOrderStatus(form.getOrderStatus());
         tbFoodOrderHist.setUpdatedAt(form.getUpdatedAt());
@@ -138,10 +142,14 @@ public class TbFoodOrderController {
         int cancelCount = 0;
         for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
             if (tbFoodOrderHist.getOrderStatus() == 'R') {
-                sumCount += tbFoodOrderHist.getOrderCnt();
+                // sumCount += tbFoodOrderHist.getOrderCnt();
+                sumCount += tbFoodOrderHist.getOrderACnt();
+                sumCount += tbFoodOrderHist.getOrderBCnt();
             }
             else if (tbFoodOrderHist.getOrderStatus() == 'C') {
-                cancelCount += tbFoodOrderHist.getOrderCnt();
+                // cancelCount += tbFoodOrderHist.getOrderCnt();
+                cancelCount += tbFoodOrderHist.getOrderACnt();
+                cancelCount += tbFoodOrderHist.getOrderBCnt();
             }
         }
         model.addAttribute("sumCount", sumCount);
@@ -167,12 +175,18 @@ public class TbFoodOrderController {
         int cancelCount = 0;
         for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
             if (tbFoodOrderHist.getOrderStatus() == 'R') {
-                sumCount += tbFoodOrderHist.getOrderCnt();
+                // sumCount += tbFoodOrderHist.getOrderCnt();
+                sumCount += tbFoodOrderHist.getOrderACnt();
+                sumCount += tbFoodOrderHist.getOrderBCnt();
             }
             else if (tbFoodOrderHist.getOrderStatus() == 'C') {
-                cancelCount += tbFoodOrderHist.getOrderCnt();
+                // cancelCount += tbFoodOrderHist.getOrderCnt();
+                cancelCount += tbFoodOrderHist.getOrderACnt();
+                cancelCount += tbFoodOrderHist.getOrderBCnt();
             }
-        }
+        // 
+                
+    }
         model.addAttribute("sumCount", sumCount);
         model.addAttribute("cancelCount", cancelCount);
         model.addAttribute("searchType", form.getSearch_type());
@@ -188,8 +202,13 @@ public class TbFoodOrderController {
         // 오늘 날짜를 가져와 form.date_start에 설정
         // 날짜 포맷은 yyyy-mm-dd로 설정
         LocalDate today = LocalDate.now();
-        form.setDate_start(today);
-        form.setDate_end(today);
+        // Convert LocalDate to LocalDateTime, setting time to 00:00:00
+        LocalDateTime startOfDay = today.atStartOfDay(); 
+        form.setDate_start(startOfDay);
+
+        // For end date, set time to 23:59:59 to include the entire day
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX); 
+        form.setDate_end(endOfDay);
         
         List<TbFoodOrderHist> tbFoodOrderHists = tbFoodOrderHistService.findTbFoodOrderHists(form.getDate_start());
         model.addAttribute("tbFoodOrderHists", tbFoodOrderHists);
@@ -199,10 +218,14 @@ public class TbFoodOrderController {
         int cancelCount = 0;
         for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
             if (tbFoodOrderHist.getOrderStatus() == 'R') {
-                sumCount += tbFoodOrderHist.getOrderCnt();
+                // sumCount += tbFoodOrderHist.getOrderCnt();
+                sumCount += tbFoodOrderHist.getOrderACnt();
+                sumCount += tbFoodOrderHist.getOrderBCnt();
             }
             else if (tbFoodOrderHist.getOrderStatus() == 'C') {
-                cancelCount += tbFoodOrderHist.getOrderCnt();
+                // cancelCount += tbFoodOrderHist.getOrderCnt();
+                cancelCount += tbFoodOrderHist.getOrderACnt();
+                cancelCount += tbFoodOrderHist.getOrderBCnt();
             }
         }
         model.addAttribute("sumCount", sumCount);
@@ -228,10 +251,14 @@ public class TbFoodOrderController {
         int cancelCount = 0;
         for (TbFoodOrderHist tbFoodOrderHist : tbFoodOrderHists) {
             if (tbFoodOrderHist.getOrderStatus() == 'R') {
-                sumCount += tbFoodOrderHist.getOrderCnt();
+                // sumCount += tbFoodOrderHist.getOrderCnt();
+                sumCount += tbFoodOrderHist.getOrderACnt();
+                sumCount += tbFoodOrderHist.getOrderBCnt();
             }
             else if (tbFoodOrderHist.getOrderStatus() == 'C') {
-                cancelCount += tbFoodOrderHist.getOrderCnt();
+                // cancelCount += tbFoodOrderHist.getOrderCnt();
+                cancelCount += tbFoodOrderHist.getOrderACnt();
+                cancelCount += tbFoodOrderHist.getOrderBCnt();
             }
         }
         model.addAttribute("sumCount", sumCount);
